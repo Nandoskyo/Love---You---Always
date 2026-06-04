@@ -1,0 +1,713 @@
+/* ─── Design Tokens ─────────────────────────────────────────────── */
+:root {
+  --color-bg:         #0e0308;
+  --color-bg-2:       #180911;
+  --color-bg-3:       #26101a;
+  --color-bg-card:    rgba(18, 5, 12, 0.88);
+
+  --color-rose:       #e87fa0;
+  --color-rose-light: #f4a8c0;
+  --color-rose-deep:  #b85470;
+  --color-rose-glow:  rgba(232, 127, 160, 0.35);
+
+  --color-cream:      #f5e8ee;
+  --color-cream-dim:  rgba(245, 232, 238, 0.55);
+  --color-cream-faint:rgba(245, 232, 238, 0.2);
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Raleway', system-ui, sans-serif;
+
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   16px;
+  --radius-full: 9999px;
+
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.4s ease;
+  --transition-slow: 0.8s ease;
+
+  --shadow-rose: 0 0 40px rgba(232, 127, 160, 0.25);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+
+/* ─── Page Layout ───────────────────────────────────────────────── */
+.page {
+  position: relative;
+  min-height: 100vh;
+}
+
+.full-screen {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ─── Floating Flowers Background ───────────────────────────────── */
+.floating-flowers {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.floating-element {
+  position: absolute;
+  bottom: -60px;
+  animation: floatUp var(--duration) var(--delay) linear infinite;
+  will-change: transform, opacity;
+}
+
+.petal-dot {
+  border-radius: 50%;
+  background: rgba(232, 127, 160, 0.8);
+}
+
+
+/* ─── Gift Section ───────────────────────────────────────────────── */
+.gift-section {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  background: radial-gradient(ellipse at center, #1c0810 0%, #0e0308 70%);
+}
+
+.gift-intro-text {
+  text-align: center;
+}
+
+.gift-intro-text p {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  color: var(--color-cream-dim);
+  letter-spacing: 0.12em;
+}
+
+/* Gift Container */
+.gift-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+.gift-container:hover .gift-scene {
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* Gift Scene — 3D perspective wrapper */
+.gift-scene {
+  position: relative;
+  width: 180px;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-style: preserve-3d;
+  perspective: 900px;
+}
+
+/* Gift Lid */
+.gift-lid {
+  position: relative;
+  width: 200px;
+  height: 58px;
+  margin-left: -10px;
+  background: linear-gradient(145deg, #6b1e35 0%, #4a1124 100%);
+  border-radius: 6px 6px 0 0;
+  box-shadow:
+    0 4px 0 #1e0810,
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  overflow: visible;
+  z-index: 2;
+}
+
+/* Gift Body */
+.gift-body {
+  position: relative;
+  width: 180px;
+  height: 145px;
+  background: linear-gradient(160deg, #521628 0%, #3d0f1e 50%, #2e0b18 100%);
+  border-radius: 0 0 8px 8px;
+  box-shadow:
+    5px 7px 0 #160609,
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+/* Ribbons — vertical */
+.lid-ribbon-v,
+.body-ribbon-v {
+  position: absolute;
+  width: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to right,
+    #a83a58,
+    #e87fa0 35%,
+    #f4b8ce 50%,
+    #e87fa0 65%,
+    #a83a58
+  );
+}
+
+/* Ribbons — horizontal */
+.lid-ribbon-h,
+.body-ribbon-h {
+  position: absolute;
+  height: 22px;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(
+    to bottom,
+    #a83a58,
+    #e87fa0 35%,
+    #f4b8ce 50%,
+    #e87fa0 65%,
+    #a83a58
+  );
+}
+
+.body-ribbon-h {
+  top: 38%;
+}
+
+/* Shine on gift body */
+.body-shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 55%;
+  height: 48%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.07) 0%,
+    transparent 100%
+  );
+}
+
+/* Bow */
+.bow-svg {
+  position: absolute;
+  width: 110px;
+  height: 72px;
+  top: -62px;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+}
+
+/* Particles burst */
+.particles-wrap {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.particle {
+  position: absolute;
+  font-size: 1rem;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* Pulse ring on gift */
+.gift-pulse-ring {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  border: 1px solid rgba(232, 127, 160, 0.2);
+  animation: ringPulse 2.5s ease-in-out infinite;
+}
+
+.gift-pulse-ring:nth-child(2) {
+  inset: -35px;
+  animation-delay: 0.8s;
+  border-color: rgba(232, 127, 160, 0.1);
+}
+
+/* Click prompt */
+.gift-prompt {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-cream-faint);
+  animation: scrollPulse 2.2s ease-in-out infinite;
+}
+
+
+/* ─── Hero Section ───────────────────────────────────────────────── */
+.hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  z-index: 2;
+}
+
+.hero-content {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  width: 100%;
+}
+
+.hero-tag {
+  display: block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(0.9rem, 2.2vw, 1.1rem);
+  color: var(--color-rose);
+  letter-spacing: 0.12em;
+  margin-bottom: 1.5rem;
+  opacity: 0; /* GSAP will animate this */
+}
+
+.hero-title-1 {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(3.8rem, 9vw, 7.5rem);
+  color: var(--color-cream);
+  line-height: 0.9;
+  margin-bottom: 0.05em;
+  opacity: 0; /* GSAP will animate this */
+}
+
+.hero-title-2 {
+  display: block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(3.8rem, 9vw, 7.5rem);
+  color: var(--color-rose);
+  line-height: 1;
+  margin-bottom: 1.8rem;
+  opacity: 0; /* GSAP will animate this */
+}
+
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(0.7rem, 1.6vw, 0.88rem);
+  color: var(--color-cream-dim);
+  letter-spacing: 0.1em;
+  max-width: 380px;
+  margin: 0 auto 3rem;
+  opacity: 0; /* GSAP will animate this */
+}
+
+.hero-flower {
+  width: clamp(64px, 9vw, 80px);
+  height: clamp(64px, 9vw, 80px);
+  margin: 0 auto 3rem;
+  animation: sway 4.5s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
+  opacity: 0; /* GSAP will animate this */
+}
+
+.hero-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--color-cream-faint);
+  opacity: 0; /* GSAP will animate this */
+}
+
+.scroll-arrow {
+  animation: bounceDown 1.8s ease-in-out infinite;
+}
+
+
+/* ─── Music Player ───────────────────────────────────────────────── */
+.music-player {
+  position: fixed;
+  bottom: 1.75rem;
+  left: 1.75rem;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  background: rgba(12, 3, 8, 0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(232, 127, 160, 0.12);
+  border-radius: 14px;
+  padding: 0.875rem;
+  width: 290px;
+  box-shadow:
+    var(--shadow-card),
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  opacity: 0; /* GSAP will animate this */
+}
+
+.player-art {
+  width: 68px;
+  height: 68px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.player-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.9) saturate(0.8);
+}
+
+.player-art-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #3d0f1e, #1c0810);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+}
+
+.player-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.song-title {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.8rem;
+  color: var(--color-cream);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.15rem;
+}
+
+.song-artist {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.65rem;
+  color: var(--color-rose);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.6rem;
+}
+
+.progress-bar {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 0.35rem;
+}
+
+.progress-bar:hover .progress-thumb {
+  transform: translateX(-50%) scale(1.3);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, #e87fa0, #f4c0d0);
+  border-radius: 2px;
+  transition: width 0.15s linear;
+  pointer-events: none;
+}
+
+.progress-thumb {
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  background: var(--color-rose-light);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.2s ease;
+  pointer-events: none;
+}
+
+.progress-bar:hover .progress-thumb {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.player-time {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-body);
+  font-size: 0.58rem;
+  color: var(--color-cream-dim);
+  opacity: 0.6;
+  margin-bottom: 0.5rem;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.ctrl-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-cream-dim);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  padding: 0.2rem;
+}
+
+.ctrl-btn:hover {
+  color: var(--color-rose-light);
+  transform: scale(1.1);
+}
+
+.ctrl-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.ctrl-btn-play {
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, #e87fa0, #c4516e);
+  border-radius: 50%;
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(200, 80, 110, 0.4);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.ctrl-btn-play:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 16px rgba(200, 80, 110, 0.6);
+  color: #fff;
+}
+
+.ctrl-btn-play svg {
+  width: 13px;
+  height: 13px;
+}
+
+
+/* ─── Love Letter Section ────────────────────────────────────────── */
+.love-letter-section {
+  position: relative;
+  z-index: 2;
+  padding: 6rem 2rem 5rem;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--color-bg-2) 15%,
+    var(--color-bg-2) 85%,
+    transparent
+  );
+}
+
+.letter-container {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.8rem;
+}
+
+.letter-item {
+  will-change: transform, opacity;
+}
+
+.letter-salutation {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: var(--color-rose-light);
+}
+
+.letter-body {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  line-height: 2;
+  color: var(--color-cream-dim);
+}
+
+.letter-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+  color: var(--color-rose);
+  text-align: center;
+  padding: 2.2rem 1.5rem;
+  border-top: 1px solid rgba(232, 127, 160, 0.18);
+  border-bottom: 1px solid rgba(232, 127, 160, 0.18);
+  line-height: 1.7;
+}
+
+.letter-closing {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  color: var(--color-cream-dim);
+}
+
+.letter-signature {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  color: var(--color-cream);
+  margin-top: 0.4rem;
+}
+
+.flower-divider {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  color: var(--color-rose);
+  opacity: 0.3;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+}
+
+.divider-flower {
+  font-size: 1.1rem;
+}
+
+/* Photo frame */
+.letter-photo-frame {
+  position: relative;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.letter-photo-frame img {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  filter: sepia(0.3) brightness(0.9);
+  box-shadow: var(--shadow-card);
+}
+
+.photo-placeholder {
+  width: 280px;
+  height: 210px;
+  background: linear-gradient(135deg, #3d0f1e, #26101a);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  opacity: 0.4;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(232, 127, 160, 0.1);
+}
+
+.photo-caption {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.8rem;
+  color: var(--color-cream-faint);
+  text-align: center;
+  margin-top: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+
+/* ─── Footer ─────────────────────────────────────────────────────── */
+.site-footer {
+  position: relative;
+  z-index: 2;
+  padding: 3rem 2rem 4rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-flower {
+  font-size: 1.5rem;
+  color: var(--color-rose);
+  opacity: 0.35;
+  animation: heartbeat 3s ease-in-out infinite;
+  margin-bottom: 0.25rem;
+}
+
+.footer-tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--color-cream-faint);
+  letter-spacing: 0.2em;
+}
+
+.footer-date {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  color: var(--color-cream-faint);
+  letter-spacing: 0.12em;
+  opacity: 0.45;
+}
+
+
+/* ─── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .music-player {
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+  }
+
+  .gift-scene {
+    transform: scale(0.9);
+  }
+
+  .letter-container {
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-title-1,
+  .hero-title-2 {
+    font-size: clamp(3rem, 12vw, 4rem);
+  }
+}
